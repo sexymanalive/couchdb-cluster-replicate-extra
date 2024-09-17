@@ -1,0 +1,39 @@
+services: 
+  couchdb-1: 
+    image: couchdb:3.3.2
+    container_name: couchdb 
+    ports:
+      - "5984:5984"
+    environment:
+      COUCHDB_USER: admin
+      COUCHDB_PASSWORD: password
+    volumes:
+    # bind mount : host_path( folder or file in  your local computer ):container_path
+      # - ./couchdb/data:/opt/couchdb/data
+      - couchdb-vol:/opt/couchdb/data
+  couchdb-2: 
+    image: couchdb:3.3.2
+    container_name: couchdb 
+    ports:
+      - "5984:5984"
+    environment:
+      COUCHDB_USER: admin
+      COUCHDB_PASSWORD: password
+    volumes:
+    # bind mount : host_path( folder or file in  your local computer ):container_path
+      # - ./couchdb/data:/opt/couchdb/data
+      - couchdb-vol:/opt/couchdb/data
+  couchdb-3: 
+    image: couchdb:3.3.2
+    container_name: couchdb 
+    ports:
+      - "5984:5984"
+    environment:
+      COUCHDB_USER: admin
+      COUCHDB_PASSWORD: password
+    volumes:
+    # bind mount : host_path( folder or file in  your local computer ):container_path
+      # - ./couchdb/data:/opt/couchdb/data
+      - couchdb-vol:/opt/couchdb/data
+volumes:
+  couchdb-vol:

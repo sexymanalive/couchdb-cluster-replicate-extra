@@ -1,0 +1,79 @@
+# services: 
+#   couchdb-1: 
+#     extends: 
+#       file: base/base-couchdb.yml
+#       service: base-couchdb
+#     container_name: couchdb-one
+#     # environment: 
+#       # - ERL_FLAGS=-setcookie "brumbrum" -name "couchdb@192.168.10.11"
+#     ports:
+#       - "5984:5984"
+#     networks: 
+#       couchdb-network:
+#         ipv4_address: 192.168.10.11
+#     volumes:
+#       - couchdb-vol-1:/opt/couchdb/data
+#   couchdb-2:
+#     extends: 
+#       file: base/base-couchdb.yml
+#       service: base-couchdb
+#     container_name: couchdb-two
+#     ports:
+#       - "5985:5984"
+#     networks: 
+#       - couchdb-network
+#     volumes:
+#       - couchdb-vol-2:/opt/couchdb/data
+ 
+# volumes:
+#   couchdb-vol-1:
+#   couchdb-vol-2:
+# networks:
+#   another-network:
+#     driver: bridge
+#   couchdb-network: 
+#     ipam:
+#       driver: default
+#       config:
+#         - subnet: 192.168.10.0/24
+
+
+services:
+  couchdb1:
+    image: couchdb:3.3.2
+    container_name: couchdb1
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=password
+      - COUCHDB_SECRET=mysecret
+      - ERL_FLAGS=-setcookie "brumbrum" -name "couchdb1@172.16.238.11"
+      - COUCHDB_FABRIC_REQUEST_TIMEOUT=300000
+      - COUCHDB_CHTTPD_REQUIRE_VALID_USER=false
+    ports:
+      - "5984:5984"
+    networks:
+      couchdb_network:
+        ipv4_address: 172.16.238.11
+
+  couchdb2:
+    image: couchdb:3.3.2
+    container_name: couchdb2
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=password
+      - COUCHDB_SECRET=mysecret
+      - ERL_FLAGS=-setcookie "brumbrum" -name "couchdb2@172.16.238.12"
+      - COUCHDB_FABRIC_REQUEST_TIMEOUT=300000 # 5 minute timeout
+      - COUCHDB_CHTTPD_REQUIRE_VALID_USER=false
+    ports:
+      - "5985:5984"
+    networks:
+      couchdb_network:
+        ipv4_address: 172.16.238.12
+
+networks:
+  couchdb_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.238.0/24

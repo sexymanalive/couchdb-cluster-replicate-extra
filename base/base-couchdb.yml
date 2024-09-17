@@ -1,0 +1,16 @@
+services: 
+  base-couchdb: 
+    image: couchdb:3.3.2
+    container_name: couchdb 
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=password
+      - COUCHDB_SECRET=mysecret
+      # - ERL_FLAGS=-setcookie "brumbrum" -name "couchdb@172.16.238.11"
+      - COUCHDB_FABRIC_REQUEST_TIMEOUT=300000 # means 5 minutes
+      - COUCHDB_CHTTPD_REQUIRE_VALID_USER=false
+      - COUCHDB_HTTPD_ENABLE_CORS=true
+      - COUCHDB_CORS_ORIGINS=*
+      - COUCHDB_CORS_CREDENTIALS=true
+      - COUCHDB_CORS_METHODS=GET, PUT, POST, HEAD, DELETE
+      - COUCHDB_CORS_HEADERS=accept, authorization, content-type, origin, referer

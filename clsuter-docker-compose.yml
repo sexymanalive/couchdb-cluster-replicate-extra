@@ -1,0 +1,53 @@
+services: 
+  couchdb-1: 
+    extends: 
+      file: base/base-couchdb.yml
+      service: base-couchdb
+    container_name: couchdb-one
+    ports:
+      - "5984:5984"
+    networks: 
+      couchdb-network:
+        ipv4_address: 192.168.10.11
+    environment: 
+      - ERL_FLAGS=-setcookie "brumbrum" -name "couchdb@192.168.10.11"
+    volumes:
+      - couchdb-vol-1:/opt/couchdb/data
+  couchdb-2:
+    extends: 
+      file: base/base-couchdb.yml
+      service: base-couchdb
+    container_name: couchdb-two
+    ports:
+      - "5985:5984"
+    networks: 
+      couchdb-network:
+        ipv4_address: 192.168.10.12
+    environment: 
+      - ERL_FLAGS=-setcookie "brumbrum" -name "couchdb@192.168.10.12"
+    volumes:
+      - couchdb-vol-2:/opt/couchdb/data
+  couchdb-3:
+    extends: 
+      file: base/base-couchdb.yml
+      service: base-couchdb
+    container_name: couchdb-three
+    ports:
+      - "5986:5984"
+    networks: 
+      couchdb-network:
+        ipv4_address: 192.168.10.13
+    environment:
+      - ERL_FLAGS=-setcookie "brumbrum" -name "couchdb@192.168.10.13"
+    volumes:
+      - couchdb-vol-3:/opt/couchdb/data
+volumes:
+  couchdb-vol-1:
+  couchdb-vol-2:
+  couchdb-vol-3:
+networks:
+  couchdb-network: 
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.10.0/24
